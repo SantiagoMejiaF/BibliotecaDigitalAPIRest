@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "Biblioteca Digital API"
+version = "0.1.0"
+description = "API REST para la gestión de una biblioteca digital con FastAPI"
+authors = ["Santiago Mejía Fernández <santiagomejia2000@hotmail.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.100.0"
+uvicorn = "^0.23.0"
+SQLAlchemy = "^2.0.20"
+psycopg2 = "^2.9.6"
+pydantic = "^2.1.1"
+python-dotenv = "^1.0.0"
+python-jose = "^3.3.0"
+passlib = "^1.7.4"
+bcrypt = "^4.0.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

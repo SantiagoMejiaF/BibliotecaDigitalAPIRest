@@ -1,0 +1,25 @@
+# Ignorar archivos de entorno
+.env
+
+# Ignorar caché de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignorar dependencias instaladas en un entorno virtual
+venv/
+*.egg-info/
+pip-log.txt
+
+# Ignorar archivos de bases de datos locales
+*.sqlite3
+
+# Archivos de logs
+logs/
+*.log
+
+# Configuraciones de IDE
+.vscode/
+.idea/
+*.iml
