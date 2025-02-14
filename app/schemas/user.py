@@ -22,17 +22,29 @@ class UserBase(BaseModel):
 class UserCreate(UserBase):
     """
     Esquema para la creación de un usuario.
-    Hereda los atributos de `UserBase`.
+    Hereda los atributos de `UserBase` y agrega la contraseña.
     """
-    pass
+    password: str
 
 class UserResponse(UserBase):
     """
     Esquema de respuesta para un usuario.
-    Agrega el ID y la fecha de registro.
+    Agrega el ID y la fecha de registro, pero **no incluye la contraseña**.
     """
     id: int
     registered_at: datetime
 
     class Config:
-        from_attributes = True  # Permite conversión desde modelos ORM
+        from_attributes = True  # Permite conversión desde modelos ORM.
+
+class UserDB(UserBase):
+    """
+    Esquema de usuario con contraseña para almacenamiento en la base de datos.
+    No debe ser usado en respuestas de la API.
+    """
+    id: int
+    password: str
+    registered_at: datetime
+
+    class Config:
+        from_attributes = True

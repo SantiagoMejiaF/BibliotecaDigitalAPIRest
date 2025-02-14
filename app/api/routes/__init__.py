@@ -22,4 +22,3 @@ api_router.include_router(user_router)
 api_router.include_router(author_router)
 api_router.include_router(book_router)
 api_router.include_router(loan_router)
-

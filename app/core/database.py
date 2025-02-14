@@ -13,9 +13,24 @@ from app.core.config import settings
 
 DATABASE_URL = settings.DATABASE_URL
 
-engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False} if "sqlite" in DATABASE_URL else {})
+# Configuración del motor SQLAlchemy para PostgreSQL
+engine = create_engine(DATABASE_URL, pool_pre_ping=True)
+
+# Crear una sesión de base de datos
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+# Base para los modelos ORM
 Base = declarative_base()
+
+def init_db():
+    """
+    Inicializa la base de datos creando las tablas si no existen.
+
+    Nota: Esto solo crea las tablas pero no las actualiza.
+    Para cambios en la estructura, usar Alembic.
+    """
+    print("Verificando y creando tablas en la base de datos...")
+    Base.metadata.create_all(bind=engine)
 
 def get_db():
     """
