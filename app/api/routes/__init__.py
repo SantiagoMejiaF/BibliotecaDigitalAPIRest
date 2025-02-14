@@ -13,6 +13,7 @@ from app.api.routes.users import router as user_router
 from app.api.routes.authors import router as author_router
 from app.api.routes.books import router as book_router
 from app.api.routes.loans import router as loan_router
+from app.api.routes.auth import router as auth_router
 
 # Creación del enrutador principal
 api_router = APIRouter()
@@ -22,3 +23,4 @@ api_router.include_router(user_router)
 api_router.include_router(author_router)
 api_router.include_router(book_router)
 api_router.include_router(loan_router)
+api_router.include_router(auth_router)

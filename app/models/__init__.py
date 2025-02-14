@@ -12,3 +12,5 @@ Fecha: 13/02/2025
 from app.models.user import User
 from app.models.author import Author
 from app.models.book import Book
+from app.models.session import SessionToken
+from app.models.role import Role

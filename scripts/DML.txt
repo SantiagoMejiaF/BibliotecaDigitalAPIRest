@@ -1,0 +1,79 @@
+-- ==============================================
+-- SCRIPT DE POBLADO DE BASE DE DATOS
+-- Biblioteca Digital API
+-- Autor: Santiago Mejía Fernández
+-- Fecha: 13/02/2025
+-- ==============================================
+
+-- Eliminar datos previos (para evitar duplicados en pruebas)
+DELETE FROM session_tokens;
+DELETE FROM books;
+DELETE FROM authors;
+DELETE FROM users;
+DELETE FROM roles;
+
+-- ==============================================
+-- 1. Insertar Roles (ADMINISTRADOR y USUARIO)
+-- ==============================================
+INSERT INTO roles (id, name) VALUES
+(1, 'ADMINISTRADOR'),
+(2, 'USUARIO');
+
+-- ==============================================
+-- 2. Insertar Usuarios (Contraseñas encriptadas con bcrypt)
+-- ==============================================
+INSERT INTO users (id, name, email, password, registered_at, role_id) VALUES
+(1, 'Santiago Mejía', 'admin@biblioteca.com', '$2b$12$XJjHfUjdvXl7.P1bnJ92FOWHq49RJh5aLZyGriChxYPMX2.yo/6mi', NOW(), 1), -- ADMIN
+(2, 'Laura Ríos', 'laura.rios@mail.com', '$2b$12$Z8HsYbN0uKAvC6tShQUbke8lu8S6xFB9DOwFAdSgP5uB1Nws/F1Oq', NOW(), 2),
+(3, 'Carlos Montoya', 'carlos.montoya@mail.com', '$2b$12$N3V6JSfpw3.5jHj9RojWaO9bnV.cjmzD7U5zk9TcF3WlgFJXYlHtu', NOW(), 2),
+(4, 'Mariana Gómez', 'mariana.gomez@mail.com', '$2b$12$XuwuMI1uZy8z.PtJolRz2O8PCbhZ5MnBRwCRp1gjsFn.hQ0q3LZ5a', NOW(), 2),
+(5, 'José Ramírez', 'jose.ramirez@mail.com', '$2b$12$51L7zPXAvvK6L4pX5CZyYeZwD3vDk2D2YcYFwbl1n04tApftGajqK', NOW(), 2),
+(6, 'Daniela Herrera', 'daniela.herrera@mail.com', '$2b$12$hG6JHfIAVMoMI6MPJHHaFMOON83J3xK1ZNM6zZSz59Lq5u.Z0Z2aG', NOW(), 2),
+(7, 'Jorge López', 'jorge.lopez@mail.com', '$2b$12$d3F8cO5ZmT8p7HoUNYjFzO.qxIuQZrPb1j08X1s8tfA1IxDq9FvcW', NOW(), 2),
+(8, 'Andrea Silva', 'andrea.silva@mail.com', '$2b$12$MJK46pKLz6kY93JjR6IqK00jMn7d3Mtx3GFLsdHChkmx0b9aUqHZa', NOW(), 2),
+(9, 'Felipe Castro', 'felipe.castro@mail.com', '$2b$12$JHtF0PXZNyIomPhPBLzC.eBdfvhghJZuV9LPllPcHauR3TjAvbXCm', NOW(), 2),
+(10, 'Camila Ospina', 'camila.ospina@mail.com', '$2b$12$fWYrXq4FpMk5HRj0Z8APhOSNnKXUQsUhDT9A0GHP3npdkLQJZfZaG', NOW(), 2);
+
+-- ==============================================
+-- 3. Insertar Autores (Agregando birth_date en formato dd/mm/yyyy)
+-- ==============================================
+INSERT INTO authors (id, name, birth_date) VALUES
+(1, 'Gabriel García Márquez', '06/03/1927'),
+(2, 'Isabel Allende', '02/08/1942'),
+(3, 'Mario Vargas Llosa', '28/03/1936'),
+(4, 'J.K. Rowling', '31/07/1965'),
+(5, 'George Orwell', '25/06/1903'),
+(6, 'Haruki Murakami', '12/01/1949'),
+(7, 'Julio Cortázar', '26/08/1914'),
+(8, 'Stephen King', '21/09/1947'),
+(9, 'Jane Austen', '16/12/1775'),
+(10, 'Ernest Hemingway', '21/07/1899');
+
+-- ==============================================
+-- 4. Insertar Libros (Relacionados con autores y usuarios)
+-- ==============================================
+INSERT INTO books (id, title, author_id, publication_year, borrowed_by_id) VALUES
+(1, 'Cien años de soledad', 1, 1967, 2), -- Prestado por Laura Ríos
+(2, 'La casa de los espíritus', 2, 1982, 3), -- Prestado por Carlos Montoya
+(3, 'La ciudad y los perros', 3, 1963, 4), -- Prestado por Mariana Gómez
+(4, 'Harry Potter y la piedra filosofal', 4, 1997, NULL), -- Disponible
+(5, '1984', 5, 1949, 5), -- Prestado por José Ramírez
+(6, 'Kafka en la orilla', 6, 2002, NULL), -- Disponible
+(7, 'Rayuela', 7, 1963, 6), -- Prestado por Daniela Herrera
+(8, 'El resplandor', 8, 1977, NULL), -- Disponible
+(9, 'Orgullo y prejuicio', 9, 1813, NULL), -- Disponible
+(10, 'El viejo y el mar', 10, 1952, NULL); -- Disponible
+
+-- ==============================================
+-- 5. Insertar Tokens de Sesión (Usuarios autenticados actualmente)
+-- ==============================================
+INSERT INTO session_tokens (id, user_id, token, created_at) VALUES
+(1, 2, 'token123456laura', NOW()), -- Laura autenticada
+(2, 3, 'token789012carlos', NOW()), -- Carlos autenticado
+(3, 4, 'token345678mariana', NOW()), -- Mariana autenticada
+(4, 5, 'token901234jose', NOW()), -- José autenticado
+(5, 6, 'token567890daniela', NOW()); -- Daniela autenticada
+
+-- ==============================================
+-- FINALIZADO: Base de datos inicializada con datos de prueba.
+-- ==============================================

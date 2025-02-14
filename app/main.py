@@ -9,11 +9,12 @@ Fecha: 13/02/2025
 """
 
 import uvicorn
-from fastapi import FastAPI
 from contextlib import asynccontextmanager
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi import FastAPI
+from fastapi.security import HTTPBearer
 from app.api.routes import api_router
 from app.core.config import settings
+from app.core.database import init_db
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -33,18 +34,23 @@ async def lifespan(app: FastAPI):
         None
     """
     print("🚀 API Biblioteca Digital iniciada con éxito.")  # Evento de inicio
+    init_db()
     yield
     print("🛑 API Biblioteca Digital detenida.")  # Evento de apagado
 
-# Inicialización de la aplicación con Lifespan
+# Configuración de autenticación en Swagger
+security = HTTPBearer()
+
 app = FastAPI(
     title=settings.APP_NAME,
     description="API REST para la gestión de una biblioteca digital.",
     version="1.0.0",
-    docs_url="/swagger",
-    redoc_url="/documentation",
+    docs_url="/docs",
+    redoc_url="/redoc",
     lifespan=lifespan
 )
+# Registrar todas las rutas
+app.include_router(api_router)
 
 # Registrar todas las rutas de la API
 app.include_router(api_router)

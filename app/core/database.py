@@ -24,13 +24,22 @@ Base = declarative_base()
 
 def init_db():
     """
-    Inicializa la base de datos creando las tablas si no existen.
-
-    Nota: Esto solo crea las tablas pero no las actualiza.
-    Para cambios en la estructura, usar Alembic.
+    Inicializa la base de datos creando las tablas si no existen y agregando roles.
     """
-    print("Verificando y creando tablas en la base de datos...")
+    from app.models.role import Role
+
+    print("🔄 Verificando y creando tablas en la base de datos...")
     Base.metadata.create_all(bind=engine)
+
+    # Insertar roles si no existen
+    db = SessionLocal()
+    if not db.query(Role).filter(Role.name == "ADMINISTRADOR").first():
+        db.add(Role(name="ADMINISTRADOR"))
+    if not db.query(Role).filter(Role.name == "USUARIO").first():
+        db.add(Role(name="USUARIO"))
+    db.commit()
+    db.close()
+
 
 def get_db():
     """
