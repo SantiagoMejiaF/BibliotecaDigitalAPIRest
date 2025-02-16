@@ -15,6 +15,7 @@ Fecha: 13/02/2025
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from app.core.database import get_db
+from app.schemas import UserResponse, UserCreate
 from app.schemas.auth import LoginRequest
 from app.schemas.session import SessionTokenResponse
 from app.services.user_service import UserService
@@ -99,3 +100,29 @@ def login(request: LoginRequest, db: Session = Depends(get_db)):
         "token_type": "bearer",
         "created_at": session_token.created_at
     }
+
+@router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
+def create_user(user: UserCreate, db: Session = Depends(get_db)):
+    """
+    Crea un nuevo usuario en la base de datos con el rol **USUARIO** por defecto.
+
+    - **Este endpoint está accesible para cualquier usuario sin autenticación.**
+    - **Contraseña:** Se almacena cifrada.
+    - **Email:** Debe ser único.
+
+    Args:
+        user (UserCreate): Datos del usuario a registrar.
+        db (Session): Sesión de base de datos.
+
+    Returns:
+        UserResponse: Usuario creado con su información.
+
+    Raises:
+        HTTPException 400: Si el correo ya está registrado.
+    """
+    existing_user = UserService.get_user_by_email(db, str(user.email))
+    if existing_user:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                            detail=error_response(400, "El correo ya está registrado"))
+
+    return UserService.create_user(db, user)

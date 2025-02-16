@@ -6,7 +6,7 @@ Maneja el CRUD de usuarios y la autenticación mediante tokens de sesión.
 Se aplican restricciones de acceso según el rol del usuario:
 - **ADMINISTRADOR**: Puede acceder a todos los endpoints.
 - **USUARIO**: Puede acceder únicamente a `/users` y `/loans`.
-- **Público**: Solo `/auth/login` es accesible sin autenticación.
+- **Público**: Solo `/auth/login` y `users/register` es accesible sin autenticación.
 
 Autor: Santiago Mejía Fernández
 Fecha: 13/02/2025
@@ -41,33 +41,6 @@ def error_response(status_code: int, message: str) -> Dict[str, Any]:
         "status_code": status_code,
         "detail": message
     }
-
-
-@router.post("/", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
-def create_user(user: UserCreate, db: Session = Depends(get_db)):
-    """
-    Crea un nuevo usuario en la base de datos con el rol **USUARIO** por defecto.
-
-    - **Restricción:** Solo un **ADMINISTRADOR** puede crear nuevos usuarios.
-    - **Contraseña:** Se almacena cifrada.
-    - **Email:** Debe ser único.
-
-    Args:
-        user (UserCreate): Datos del usuario a registrar.
-        db (Session): Sesión de base de datos.
-
-    Returns:
-        UserResponse: Usuario creado con su información.
-
-    Raises:
-        HTTPException 400: Si el correo ya está registrado.
-    """
-    existing_user = UserService.get_user_by_email(db, str(user.email))
-    if existing_user:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
-                            detail=error_response(400, "El correo ya está registrado"))
-
-    return UserService.create_user(db, user)
 
 
 @router.get("/me", response_model=UserResponse, dependencies=[Depends(require_user_or_admin)])
