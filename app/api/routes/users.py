@@ -83,7 +83,7 @@ def get_user(user_id: int, db: Session = Depends(get_db)):
     return user
 
 
-@router.get("/", response_model=List[UserResponse], dependencies=[Depends(require_admin)])
+@router.get("/", response_model=List[UserResponse], dependencies=[Depends(require_user_or_admin)])
 def get_all_users(db: Session = Depends(get_db)):
     """
     Obtiene la lista de todos los usuarios registrados.
@@ -125,7 +125,7 @@ def update_user(user_id: int, user: UserCreate, db: Session = Depends(get_db)):
     return updated_user
 
 
-@router.delete("/{user_id}", status_code=status.HTTP_204_NO_CONTENT, dependencies=[Depends(require_admin)])
+@router.delete("/{user_id}", status_code=status.HTTP_204_NO_CONTENT, dependencies=[Depends(require_user_or_admin)])
 def delete_user(user_id: int, db: Session = Depends(get_db)):
     """
     Elimina un usuario de la base de datos.
