@@ -88,7 +88,7 @@ def get_all_users(db: Session = Depends(get_db)):
     """
     Obtiene la lista de todos los usuarios registrados.
 
-    - **Restricción:** Solo un **ADMINISTRADOR** puede listar todos los usuarios.
+    - **Restricción:** Solo el usuario autenticado o un **ADMINISTRADOR** puede listar todos los usuarios.
 
     Args:
         db (Session): Sesión de base de datos.
@@ -130,7 +130,7 @@ def delete_user(user_id: int, db: Session = Depends(get_db)):
     """
     Elimina un usuario de la base de datos.
 
-    - **Restricción:** Solo un **ADMINISTRADOR** puede eliminar usuarios.
+    - **Restricción:** Solo el usuario autenticado o un **ADMINISTRADOR** puede eliminar usuarios.
 
     Args:
         user_id (int): ID del usuario a eliminar.
