@@ -85,11 +85,6 @@ Se debe garantizar una cobertura mínima del 80% e incluir mocks en los test.
 
 ---
 
-## Licencia
-Este proyecto está bajo la licencia MIT. Puedes consultarla en el archivo [LICENSE](LICENSE).
-
----
-
 ## Contacto
 Para cualquier duda o sugerencia, contacta a:
 📧 Email: santiagomejia2000@hotmail.com
