@@ -38,8 +38,8 @@ uvicorn app.main:app --port 3280 --reload
 La API estará disponible en: [http://127.0.0.1:3280](http://127.0.0.1:3280)
 
 Accede a la documentación interactiva en:
-- Swagger UI: [http://127.0.0.1:8000/docs](http://127.0.0.1:3280/docs)
-- Redoc: [http://127.0.0.1:8000/redoc](http://127.0.0.1:3280/redoc)
+- Swagger UI: [http://127.0.0.1:3280/docs](http://127.0.0.1:3280/docs)
+- Redoc: [http://127.0.0.1:3280/redoc](http://127.0.0.1:3280/redoc)
 
 ---
 
